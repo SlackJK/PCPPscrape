@@ -17,18 +17,20 @@ public class ScrapeHelp//Cpus "m_all","R_all","s_all","F_all","f_all","k_all","g
 {
     public Document doc = null;
     WebClient webClient = new WebClient(BrowserVersion.CHROME);
+    public HtmlPage htmlPage = null;
     public ScrapeHelp(String URL,ArrayList<String> Buttons) throws IOException, InterruptedException
     {
         webClient.getOptions().setJavaScriptEnabled(true);
-        HtmlPage x = webClient.getPage(URL);
-        x = InitializePCPartPickerPage(x,Buttons);
-        this.doc= Jsoup.parse(x.asXml());
+        htmlPage = webClient.getPage(URL);
+        htmlPage = InitializePCPartPickerPage(htmlPage,Buttons);
+        this.doc= Jsoup.parse(htmlPage.asXml());
     }
     public HtmlPage InitializePCPartPickerPage(HtmlPage Out, ArrayList<String> Buttons) throws InterruptedException
     {
         System.out.println("Initializing Buttons for PCPP page...");
         for (int i = 0; i <Buttons.size(); i++)
         {
+            System.out.println(Buttons.get(i));
             HtmlCheckBoxInput InitializeSite = Out.getHtmlElementById(Buttons.get(i));
             Out = (HtmlPage) InitializeSite.setChecked(true);
             System.out.println(InitializeSite.isDefaultChecked()+","+InitializeSite.isChecked());
@@ -61,6 +63,7 @@ public class ScrapeHelp//Cpus "m_all","R_all","s_all","F_all","f_all","k_all","g
         }
         return OutArrayList;
     }
+
 }
 /*Legacy---------------------------------------------------------
 
