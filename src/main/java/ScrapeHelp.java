@@ -11,6 +11,7 @@ import org.jsoup.select.Elements;
 import javax.swing.text.html.HTML;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 public class ScrapeHelp//Cpus "m_all","R_all","s_all","F_all","f_all","k_all","g_all","h_all","e_all"
@@ -51,7 +52,7 @@ public class ScrapeHelp//Cpus "m_all","R_all","s_all","F_all","f_all","k_all","g
         {
             Out.add(DataSet.get(i).text());
         }
-        System.out.println(Out);
+        //System.out.println(Out);
         return Out;
     }
     public static ArrayList<String> Fill2dArrayListWithRepeating(int size2d1d,String RepeatME)
@@ -63,6 +64,19 @@ public class ScrapeHelp//Cpus "m_all","R_all","s_all","F_all","f_all","k_all","g
         }
         return OutArrayList;
     }
+    /*
+    public static void temp()
+    {
+        ArrayList<Integer> x = new ArrayList<>(Arrays.asList());
+        ArrayList<String> y = new ArrayList<>(1,88,894,361,710,236,52,737,77,868,8,149,337,50,413,11,150,436,771,225,78,379,57,114,90,14,106,101,426,722,125,18,895,485,58,21,701,331,62,107,86,824,27,168,99,463,94,440,806,229,709,128,64,439,162,694,680,231,51,79,488,145,63,91,72,119,144,888,113,56,156,116,828,82,886,461,87,93,60,442,89);
+        for (int i = 0; i < x.size(); i++)
+        {
+            y.add("\"#m="+x.get(i)+"\"");
+        }
+        System.out.println(y);
+    }
+
+     */
 
 }
 /*Legacy---------------------------------------------------------

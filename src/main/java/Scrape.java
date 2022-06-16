@@ -10,14 +10,14 @@ import java.util.concurrent.TimeUnit;
 
 public class Scrape
 {
-    private ScrapeHelp SH = null;
-    private String Url = "";
-    private ArrayList<String> Buttons = null;
-    private String AllButton = "";
-    private ArrayList<String> ClassNames = null;
-    private ArrayList ImportantButton;
+    public ScrapeHelp SH = null;
+    public String Url = "";
+    public ArrayList<String> Buttons = null;
+    public String AllButton = "";
+    public ArrayList<String> ClassNames = null;
+    public ArrayList ImportantButton = null;
 
-    public  Scrape(String Url, ArrayList<String> Buttons , ArrayList<String> ClassNames, ArrayList ImportantButton) throws IOException, InterruptedException
+    public  Scrape(String Url, ArrayList<String> Buttons , ArrayList<String> ClassNames, ArrayList<String> ImportantButton) throws IOException, InterruptedException
     {
         SH = new ScrapeHelp(Url, Buttons);
         this.Url = Url;
@@ -29,30 +29,39 @@ public class Scrape
     {
         if(ImportantButton.size()>0)
         {
-            AllButton = Buttons.get((int)ImportantButton.get(2));
-            return IterateThroughOptions(ClassNames,ImportantButton.get(0).toString(),ImportantButton.get(1).toString(),AllButton);
+            return IterateThroughOptions(ClassNames, ImportantButton);
         }
-        return AggregateData(ClassNames,"");
+        return AggregateData(ClassNames,null);
     }
-    public ArrayList<ArrayList<String>> AggregateData(ArrayList<String> ClassNames, String ImportantButton) throws IOException, InterruptedException
+    public ArrayList<ArrayList<String>> AggregateData(ArrayList<String> ClassNames, String ImportantButtons) throws IOException, InterruptedException
     {
         ArrayList<ArrayList<String>> Out = new ArrayList<>();
         Elements Pages = SH.doc.getElementsByClass("pagination list-unstyled xs-text-center").get(0).getElementsByAttributeValueContaining("href","#");
         int PageCount = Integer.valueOf(Pages.get(Pages.size()-1).text());
         ArrayList<ArrayList<String>> OutArrayList = new ArrayList<>();
-        for (int i = 1; i < PageCount; i++)
+        for (int i = 0; i < PageCount; i++)//bug here with length
         {
-            if(i>1)
+            if(i>0)
             {
-                SH = new ScrapeHelp(Url+"#page="+i,Buttons);
                 TimeUnit.SECONDS.sleep(1);
                 if(this.ImportantButton.size()>0)
                 {
-                    SetOptions(ImportantButton,AllButton);
+                    SetOptions(ImportantButtons+"&page="+(i+1));
                 }
-                Out.addAll(ScrapePCPP(SH.doc, ClassNames, ImportantButton));
+                else
+                {
+                    SH = new ScrapeHelp(Url + "#page=" + (i+1), Buttons);
+                }
+                Out.addAll(ScrapePCPP(SH.doc, ClassNames, ImportantButtons));
             }
+            else
+            {
+                Out.addAll(ScrapePCPP(SH.doc, ClassNames, ImportantButtons));
+            }
+            System.out.println(Out);
+            TimeUnit.SECONDS.sleep(5);
         }
+
         return Out;
     }
     public ArrayList<ArrayList<String>> ScrapePCPP(Document doc, ArrayList<String> ClassNames, String ImportantButton)
@@ -68,38 +77,34 @@ public class Scrape
         }
         return OutArrayList;
     }
-    public ArrayList<ArrayList<String>> IterateThroughOptions(ArrayList<String> ClassNames,String Button,String ButtonGroupId,String AllButton) throws InterruptedException, IOException//dont put a numerical end to the bitton name
+    public ArrayList<ArrayList<String>> IterateThroughOptions(ArrayList<String> ClassNames,ArrayList<String> ImportantButtons) throws InterruptedException, IOException//dont put a numerical end to the bitton name
     {
-        int OptionNum = SH.doc.getElementById(ButtonGroupId).getElementsByClass("checkbox filteritem").size();
+        //int OptionNum = SH.doc.getElementById(ButtonGroupId).getElementsByClass("checkbox filteritem").size();
+        int OptionNum = ImportantButtons.size();
         ArrayList<ArrayList<String>> Out = new ArrayList<>();
-        for (int i = 1; i < OptionNum; i++)
+        for (int i = 0; i < OptionNum; i++)
         {
-            if(i == 1)
-            {
-                SetOptions(Button+i,AllButton);
-                Out.addAll(AggregateData(ClassNames,Button+i));
-            }
-            else
-            {
-                SetOptions(Button+i,Button+(i-1));
-                Out.addAll(AggregateData(ClassNames,Button+i));
-            }
+            SetOptions(ImportantButtons.get(i));
+            Out.addAll(AggregateData(ClassNames,ImportantButtons.get(i)));
             TimeUnit.SECONDS.sleep(5);
         }
         return Out;
     }
-    public void SetOptions(String OptionID,String PreviousOptionID) throws InterruptedException
-    {
-        HtmlCheckBoxInput prev = SH.htmlPage.getHtmlElementById(PreviousOptionID);
-        SH.htmlPage = (HtmlPage) prev.setChecked(false);
-        TimeUnit.MILLISECONDS.sleep(900);
+    public void SetOptions(String OptionID) throws InterruptedException, IOException {
+
+        SH = new ScrapeHelp(Url+OptionID,Buttons);
+        TimeUnit.SECONDS.sleep(5);
+    }
+            /*
+        //HtmlCheckBoxInput prev = SH.htmlPage.getHtmlElementById(PreviousOptionID);
+        //SH.htmlPage = (HtmlPage) prev.setChecked(false);
+        //TimeUnit.MILLISECONDS.sleep(900);
 
         HtmlCheckBoxInput cur = SH.htmlPage.getHtmlElementById(OptionID);
         SH.htmlPage = (HtmlPage) cur.setChecked(true);
         TimeUnit.MILLISECONDS.sleep(900);
 
-        SH.doc = Jsoup.parse(SH.htmlPage.asXml());
-    }
+         */
     /*
     public static ArrayList<ArrayList<String>> GetCpuData(String Url, ArrayList<String> Buttons)
     {
