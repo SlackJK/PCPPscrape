@@ -9,6 +9,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import javax.swing.text.html.HTML;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,6 +72,24 @@ public class ScrapeHelp//Cpus "m_all","R_all","s_all","F_all","f_all","k_all","g
             Arr2dOne.get(i).addAll(Arr2dTwo.get(i));
         }
         return Arr2dOne;
+    }
+    public static void WriteCSV(String FileName,String Location, ArrayList<ArrayList<String>> Data) throws IOException
+    {
+        String filename = Location+FileName+".csv";
+        FileWriter myWriter = new FileWriter(filename);
+        for (int i = 0; i < Data.size(); i++)
+        {
+            for (int j = 0; j < Data.get(i).size(); j++)
+            {
+                myWriter.write(Data.get(i).get(j));
+                if(j<Data.get(i).size()-1)
+                {
+                    myWriter.write(",");
+                }
+            }
+            myWriter.write("\n");
+        }
+        myWriter.close();
     }
     /*
     public static void temp()

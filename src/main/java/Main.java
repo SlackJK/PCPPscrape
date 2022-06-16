@@ -14,12 +14,16 @@ public class Main
     public static void main(String[] args) throws IOException, InterruptedException
     {
         Scrape S = new Scrape(Url,CPUSButtons,GPUCPURAMStorageCaseMonitorClassNames,CPUImportantButtons);
-        System.out.println(S.GetData());
+        //System.out.println(S.GetData());
         /*
         //S.SetOptions("k_fi4","k_all");
         System.out.println(S.SH.doc);
         System.out.println();
-        S.ScrapePCPP(S.SH.doc, GPUCPURAMStorageCaseMonitorClassNames, "k_fi0");
-         */
+        */
+        ArrayList<ArrayList<String>> x = S.ScrapePCPP(S.SH.doc, GPUCPURAMStorageCaseMonitorClassNames, CPUImportantButtons.get(0));
+        GPUCPURAMStorageCaseMonitorClassNames.add("Socket");
+        x.add(0,GPUCPURAMStorageCaseMonitorClassNames);
+        ScrapeHelp.WriteCSV("PCPPTestDump","E:\\SQLCSVS",x);
+
     }
 }
