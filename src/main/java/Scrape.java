@@ -52,7 +52,7 @@ public class Scrape
                 {
                     SH = new ScrapeHelp(Url + "#page=" + (i+1), Buttons);
                 }
-                Out.addAll(ScrapePCPP(SH.doc, ClassNames, ImportantButtons));
+                Out = ScrapeHelp.AddEveryRow(Out,ScrapePCPP(SH.doc, ClassNames, ImportantButtons));
             }
             else
             {
@@ -85,7 +85,14 @@ public class Scrape
         for (int i = 0; i < OptionNum; i++)
         {
             SetOptions(ImportantButtons.get(i));
-            Out.addAll(AggregateData(ClassNames,ImportantButtons.get(i)));
+            if(i>0)
+            {
+                Out = ScrapeHelp.AddEveryRow(Out,AggregateData(ClassNames,ImportantButtons.get(i)));
+            }
+            else
+            {
+                Out.addAll(AggregateData(ClassNames,ImportantButtons.get(i)));
+            }
             TimeUnit.SECONDS.sleep(5);
         }
         return Out;

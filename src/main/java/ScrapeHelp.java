@@ -64,6 +64,14 @@ public class ScrapeHelp//Cpus "m_all","R_all","s_all","F_all","f_all","k_all","g
         }
         return OutArrayList;
     }
+    public static ArrayList<ArrayList<String>> AddEveryRow(ArrayList<ArrayList<String>> Arr2dOne,ArrayList<ArrayList<String>> Arr2dTwo)
+    {
+        for (int i = 0; i < Arr2dOne.size(); i++)
+        {
+            Arr2dOne.get(i).addAll(Arr2dTwo.get(i));
+        }
+        return Arr2dOne;
+    }
     /*
     public static void temp()
     {
@@ -75,6 +83,7 @@ public class ScrapeHelp//Cpus "m_all","R_all","s_all","F_all","f_all","k_all","g
         }
         System.out.println(y);
     }
+
 
      */
 
