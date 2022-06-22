@@ -11,6 +11,8 @@ import org.jsoup.select.Elements;
 import javax.swing.text.html.HTML;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
@@ -91,6 +93,11 @@ public class ScrapeHelp//Cpus "m_all","R_all","s_all","F_all","f_all","k_all","g
         }
         myWriter.close();
     }
+    public static void temp()
+    {
+
+
+    }
     /*
     public static void temp()
     {
@@ -102,6 +109,7 @@ public class ScrapeHelp//Cpus "m_all","R_all","s_all","F_all","f_all","k_all","g
         }
         System.out.println(y);
     }
+
 
 
      */

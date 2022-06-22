@@ -31,7 +31,7 @@ public class Scrape
         {
             return IterateThroughOptions(ClassNames, ImportantButton);
         }
-        return AggregateData(ClassNames,null);
+        return AggregateData(ClassNames,"");
     }
     public ArrayList<ArrayList<String>> AggregateData(ArrayList<String> ClassNames, String ImportantButtons) throws IOException, InterruptedException
     {

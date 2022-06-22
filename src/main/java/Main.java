@@ -57,6 +57,7 @@ public class Main
 
     public static void main(String[] args) throws IOException, InterruptedException
     {
+        /*
         Scrape S = new Scrape(CPUUrl,CPUSButtons,GPUCPURAMStorageCaseMonitorClassNames,CPUImportantButtons);
         ArrayList<ArrayList<String>> x = S.GetData();
         GPUCPURAMStorageCaseMonitorClassNames.add("Socket");
@@ -129,8 +130,10 @@ public class Main
         MotherboardPSUClassNames.remove(MotherboardPSUClassNames.size()-1);
         System.out.println("\nFinished PSU\n");
 
-        S = new Scrape(OSUrl,OSButtons,OSClassNames,empty);
-        x = S.GetData();
+         */
+
+        Scrape S = new Scrape(OSUrl,OSButtons,OSClassNames,empty);
+        ArrayList<ArrayList<String>> x = S.GetData();
         ScrapeHelp.WriteCSV("PCPPTestDump","E:\\SQLCSVS\\PCPP\\OS",x);
 
         System.out.println("\nFinished OS\n");
