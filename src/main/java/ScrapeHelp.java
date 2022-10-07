@@ -9,6 +9,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import javax.swing.text.html.HTML;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -77,26 +78,38 @@ public class ScrapeHelp//Cpus "m_all","R_all","s_all","F_all","f_all","k_all","g
     }
     public static void WriteCSV(String FileName,String Location, ArrayList<ArrayList<String>> Data) throws IOException
     {
-        String filename = Location+FileName+".csv";
-        FileWriter myWriter = new FileWriter(filename);
-        for (int i = 0; i < Data.size(); i++)
-        {
-            for (int j = 0; j < Data.get(i).size(); j++)
+        try {
+            String filename = Location+FileName+".csv";
+            File path = new File(Location);
+            if (path.mkdir())
             {
-                myWriter.write(Data.get(i).get(j));
-                if(j<Data.get(i).size()-1)
+                FileWriter myWriter = new FileWriter(filename);
+                for (int i = 0; i < Data.size(); i++)
                 {
-                    myWriter.write(",");
+                    for (int j = 0; j < Data.get(i).size(); j++)
+                    {
+                        myWriter.write(Data.get(i).get(j));
+                        if(j<Data.get(i).size()-1)
+                        {
+                            myWriter.write(",");
+                        }
+                    }
+                    myWriter.write("\n");
                 }
+                myWriter.close();
+            } else {
+                System.out.println("File already exists.");
             }
-            myWriter.write("\n");
+        } catch (IOException e) {
+            //System.out.println("An error occurred.");
+            e.printStackTrace();
         }
-        myWriter.close();
+
     }
-    public static void temp()
+    public static boolean doesExist(String FileName,String Location)
     {
-
-
+        File f = new File(Location+FileName+".csv");
+        return f.isFile();
     }
     /*
     public static void temp()
