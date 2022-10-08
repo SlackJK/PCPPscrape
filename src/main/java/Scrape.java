@@ -37,7 +37,13 @@ public class Scrape
     {
         ArrayList<ArrayList<String>> Out = new ArrayList<>();
         Elements Pages = SH.doc.getElementsByClass("pagination list-unstyled xs-text-center").get(0).getElementsByAttributeValueContaining("href","#");
-        int PageCount = Integer.valueOf(Pages.get(Pages.size()-1).text());
+        int PageCount = 0;
+        try {
+            PageCount = Integer.valueOf(Pages.get(Pages.size()-1).text());
+        }
+        catch (Exception e ){
+            e.printStackTrace();
+        }
         ArrayList<ArrayList<String>> OutArrayList = new ArrayList<>();
         for (int i = 0; i < PageCount; i++)//bug here with length
         {
