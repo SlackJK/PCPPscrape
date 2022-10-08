@@ -72,7 +72,12 @@ public class ScrapeHelp//Cpus "m_all","R_all","s_all","F_all","f_all","k_all","g
     {
         for (int i = 0; i < Arr2dOne.size(); i++)
         {
-            Arr2dOne.get(i).addAll(Arr2dTwo.get(i));
+            try {
+                Arr2dOne.get(i).addAll(Arr2dTwo.get(i));
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
         }
         return Arr2dOne;
     }
