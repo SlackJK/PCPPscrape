@@ -36,9 +36,10 @@ public class Scrape
     public ArrayList<ArrayList<String>> AggregateData(ArrayList<String> ClassNames, String ImportantButtons) throws IOException, InterruptedException
     {
         ArrayList<ArrayList<String>> Out = new ArrayList<>();
-        Elements Pages = SH.doc.getElementsByClass("pagination list-unstyled xs-text-center").get(0).getElementsByAttributeValueContaining("href","#");
+        Elements Pages;
         int PageCount = 0;
         try {
+            Pages = SH.doc.getElementsByClass("pagination list-unstyled xs-text-center").get(0).getElementsByAttributeValueContaining("href","#");
             PageCount = Integer.valueOf(Pages.get(Pages.size()-1).text());
         }
         catch (Exception e ){
