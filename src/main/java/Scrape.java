@@ -17,6 +17,9 @@ public class Scrape
     public ArrayList<String> ClassNames = null;
     public ArrayList ImportantButton = null;
 
+    public static int buttonTimeOut = 1;
+    public static int pageTimeOut = 5;
+
     public  Scrape(String Url, ArrayList<String> Buttons , ArrayList<String> ClassNames, ArrayList<String> ImportantButton) throws IOException, InterruptedException
     {
         SH = new ScrapeHelp(Url, Buttons);
@@ -50,7 +53,7 @@ public class Scrape
         {
             if(i>0)
             {
-                TimeUnit.SECONDS.sleep(1);
+                TimeUnit.SECONDS.sleep(buttonTimeOut);
                 if(this.ImportantButton.size()>0)
                 {
                     SetOptions(ImportantButtons+"&page="+(i+1));
@@ -66,7 +69,7 @@ public class Scrape
                 Out.addAll(ScrapePCPP(SH.doc, ClassNames, ImportantButtons));
             }
             System.out.println(Out);
-            TimeUnit.SECONDS.sleep(5);
+            TimeUnit.SECONDS.sleep(pageTimeOut);
         }
 
         return Out;
@@ -100,14 +103,14 @@ public class Scrape
             {
                 Out.addAll(AggregateData(ClassNames,ImportantButtons.get(i)));
             }
-            TimeUnit.SECONDS.sleep(5);
+            TimeUnit.SECONDS.sleep(pageTimeOut);
         }
         return Out;
     }
     public void SetOptions(String OptionID) throws InterruptedException, IOException {
 
         SH = new ScrapeHelp(Url+OptionID,Buttons);
-        TimeUnit.SECONDS.sleep(5);
+        TimeUnit.SECONDS.sleep(pageTimeOut);
     }
             /*
         //HtmlCheckBoxInput prev = SH.htmlPage.getHtmlElementById(PreviousOptionID);

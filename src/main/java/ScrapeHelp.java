@@ -35,11 +35,17 @@ public class ScrapeHelp//Cpus "m_all","R_all","s_all","F_all","f_all","k_all","g
         System.out.println("Initializing Buttons for PCPP page...");
         for (int i = 0; i <Buttons.size(); i++)
         {
-            System.out.println(Buttons.get(i));
-            HtmlCheckBoxInput InitializeSite = Out.getHtmlElementById(Buttons.get(i));
-            Out = (HtmlPage) InitializeSite.setChecked(true);
-            System.out.println(InitializeSite.isDefaultChecked()+","+InitializeSite.isChecked());
-            TimeUnit.MILLISECONDS.sleep(900);
+            try {
+                System.out.println(Buttons.get(i));
+                HtmlCheckBoxInput InitializeSite = Out.getHtmlElementById(Buttons.get(i));
+                Out = (HtmlPage) InitializeSite.setChecked(true);
+                System.out.println(InitializeSite.isDefaultChecked()+","+InitializeSite.isChecked());
+                TimeUnit.MILLISECONDS.sleep(900);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+
         }
         return Out;
     }
@@ -85,31 +91,43 @@ public class ScrapeHelp//Cpus "m_all","R_all","s_all","F_all","f_all","k_all","g
     {
         try {
             String filename = Location+FileName+".csv";
-            File path = new File(Location);
-            if (path.mkdir())
+            CreateCSV(FileName);
+
+
+            FileWriter myWriter = new FileWriter(filename);
+            for (int i = 0; i < Data.size(); i++)
             {
-                FileWriter myWriter = new FileWriter(filename);
-                for (int i = 0; i < Data.size(); i++)
+                for (int j = 0; j < Data.get(i).size(); j++)
                 {
-                    for (int j = 0; j < Data.get(i).size(); j++)
+                    myWriter.write(Data.get(i).get(j));
+                    if(j<Data.get(i).size()-1)
                     {
-                        myWriter.write(Data.get(i).get(j));
-                        if(j<Data.get(i).size()-1)
-                        {
-                            myWriter.write(",");
-                        }
+                        myWriter.write(",");
                     }
-                    myWriter.write("\n");
                 }
-                myWriter.close();
-            } else {
-                System.out.println("File already exists.");
+                myWriter.write("\n");
             }
+            myWriter.close();
         } catch (IOException e) {
             //System.out.println("An error occurred.");
             e.printStackTrace();
         }
 
+    }
+    private static void CreateCSV(String File)
+    {
+        try {
+
+            File myObj = new File(File);
+            if (myObj.createNewFile()) {
+                System.out.println("File created: " + myObj.getName());
+            } else {
+                System.out.println("File already exists.");
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
     public static boolean doesExist(String FileName,String Location)
     {

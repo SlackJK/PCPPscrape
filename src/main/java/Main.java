@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Main
@@ -66,135 +67,149 @@ public class Main
         
 
         String path = myObj.nextLine();  // Read user input
+        path = path+fileSeparator;
         System.out.println("Path is: " + path);  // Output user input
+
+        boolean changeTimeOuts = false;
+        System.out.println("Change default timeouts? \n(In seconds) buttonTimeOut = "+Scrape.buttonTimeOut+", pageTimeOut = "+Scrape.pageTimeOut+". (y/n)");
+        if (myObj.nextLine().toLowerCase().contains("y")){
+            changeTimeOuts = true;
+        }
+        if (changeTimeOuts){
+            System.out.println("Button time out = ");
+            Scrape.buttonTimeOut = Integer.parseInt(myObj.nextLine());
+            System.out.println("Button time out set: "+Scrape.buttonTimeOut);
+            System.out.println("Page time out = ");
+            Scrape.pageTimeOut = Integer.parseInt(myObj.nextLine());
+            System.out.println("Page time out set: "+Scrape.pageTimeOut);
+        }
         
-        String CPU= path+fileSeparator+"CPU";
+        String CPU= "CPU";
         Scrape S;
         ArrayList<ArrayList<String>> x = new ArrayList<>();
-        if(ScrapeHelp.doesExist("PCPP",CPU)==false)
+        if(ScrapeHelp.doesExist(CPU,path)==true)
         {
             S = new Scrape(CPUUrl,CPUSButtons,GPUCPURAMStorageCaseMonitorClassNames,CPUImportantButtons);
             x = S.GetData();
             GPUCPURAMStorageCaseMonitorClassNames.add("Socket");
             x.add(0,GPUCPURAMStorageCaseMonitorClassNames);
 
-            ScrapeHelp.WriteCSV("PCPP",CPU,x);
+            ScrapeHelp.WriteCSV(CPU,path,x);
             GPUCPURAMStorageCaseMonitorClassNames.remove(GPUCPURAMStorageCaseMonitorClassNames.size()-1);
             System.out.println("\nFinished CPU\n");
         }
 
-        String GPU= path+fileSeparator+"GPU";
+        String GPU= "GPU";
 
-        if(ScrapeHelp.doesExist("PCPP",GPU)==false)
+        if(ScrapeHelp.doesExist(GPU,path)==false)
         {
             S = new Scrape(GPUUrl,GPUSButtons,GPUCPURAMStorageCaseMonitorClassNames,GPUImportantButtons);
             x = S.GetData();
             GPUCPURAMStorageCaseMonitorClassNames.add("Manufacturer");
             x.add(0,GPUCPURAMStorageCaseMonitorClassNames);
-            ScrapeHelp.WriteCSV("PCPP",GPU,x);
+            ScrapeHelp.WriteCSV(GPU,path,x);
 
             GPUCPURAMStorageCaseMonitorClassNames.remove(GPUCPURAMStorageCaseMonitorClassNames.size()-1);
             System.out.println("\nFinished GPU\n");
         }
-        String Motherboard= path+fileSeparator+"Motherboard";
+        String Motherboard= "Motherboard";
 
-        if(ScrapeHelp.doesExist("PCPP",Motherboard)==false)
+        if(ScrapeHelp.doesExist(Motherboard,path)==false)
         {
             S = new Scrape(MotherboardUrl,MotherboardButtons,MotherboardPSUClassNames,MotherboardImportantButtons);
             x = S.GetData();
             MotherboardPSUClassNames.add("FormFactor");
             x.add(0,MotherboardPSUClassNames);
-            ScrapeHelp.WriteCSV("PCPP",Motherboard,x);
+            ScrapeHelp.WriteCSV(Motherboard,path,x);
 
             MotherboardPSUClassNames.remove(MotherboardPSUClassNames.size()-1);
             System.out.println("\nFinished Motherboard\n");
         }
-        String CPUCooler= path+fileSeparator+"CPUCooler";
+        String CPUCooler= "CPUCooler";
 
-        if(ScrapeHelp.doesExist("PCPP",CPUCooler)==false)
+        if(ScrapeHelp.doesExist(CPUCooler,path)==false)
         {
             S = new Scrape(CPUCoolerUrl,CPUCoolerButtons,CPUCoolerClassNames,CPUCoolerImportantButtons);
             x = S.GetData();
             CPUCoolerClassNames.add("Manufacturer");
             x.add(0,CPUCoolerClassNames);
-            ScrapeHelp.WriteCSV("PCPP",CPUCooler,x);
+            ScrapeHelp.WriteCSV(CPUCooler,path,x);
 
             CPUCoolerClassNames.remove(CPUCoolerClassNames.size()-1);
             System.out.println("\nFinished CPU Cooler\n");
         }
-        String RAM= path+fileSeparator+"RAM";
+        String RAM= "RAM";
 
-        if(ScrapeHelp.doesExist("PCPP",RAM)==false)
+        if(ScrapeHelp.doesExist(RAM,path)==false)
         {
             S = new Scrape(RAMUrl,RAMButtons,GPUCPURAMStorageCaseMonitorClassNames,RAMImportantButtons);
             x = S.GetData();
             GPUCPURAMStorageCaseMonitorClassNames.add("FormFactor");
             x.add(0,GPUCPURAMStorageCaseMonitorClassNames);
-            ScrapeHelp.WriteCSV("PCPP",RAM,x);
+            ScrapeHelp.WriteCSV(RAM,path,x);
 
             GPUCPURAMStorageCaseMonitorClassNames.remove(GPUCPURAMStorageCaseMonitorClassNames.size()-1);
             System.out.println("\nFinished RAM\n");
         }
-        String Storage= path+fileSeparator+"Storage";
+        String Storage= "Storage";
 
-        if(ScrapeHelp.doesExist("PCPP",Storage)==false)
+        if(ScrapeHelp.doesExist(Storage,path)==false)
         {
             S = new Scrape(StorageUrl,StorageButtons,GPUCPURAMStorageCaseMonitorClassNames,StorageImportantButtons);
             x = S.GetData();
             GPUCPURAMStorageCaseMonitorClassNames.add("Manufacturer");
             x.add(0,GPUCPURAMStorageCaseMonitorClassNames);
-            ScrapeHelp.WriteCSV("PCPP",Storage,x);
+            ScrapeHelp.WriteCSV(Storage,path,x);
 
             GPUCPURAMStorageCaseMonitorClassNames.remove(GPUCPURAMStorageCaseMonitorClassNames.size()-1);
             System.out.println("\nFinished Storage\n");
         }
-        String Case= path+fileSeparator+"Case";
+        String Case= "Case";
 
-        if(ScrapeHelp.doesExist("PCPP",Case)==false)
+        if(ScrapeHelp.doesExist(Case,path)==false)
         {
             S = new Scrape(CaseUrl,CaseButtons,GPUCPURAMStorageCaseMonitorClassNames,CaseImportantButtons);
             x = S.GetData();
             GPUCPURAMStorageCaseMonitorClassNames.add("Manufacturer");
             x.add(0,GPUCPURAMStorageCaseMonitorClassNames);
-            ScrapeHelp.WriteCSV("PCPP",Case,x);
+            ScrapeHelp.WriteCSV(Case,path,x);
 
             GPUCPURAMStorageCaseMonitorClassNames.remove(GPUCPURAMStorageCaseMonitorClassNames.size()-1);
             System.out.println("\nFinished Case\n");
         }
-        String PSU= path+fileSeparator+"PSU";
+        String PSU= "PSU";
 
-        if(ScrapeHelp.doesExist("PCPP",PSU)==false)
+        if(ScrapeHelp.doesExist(PSU,path)==false)
         {
             S = new Scrape(PSUUrl,PSUButtons,MotherboardPSUClassNames,PSUImportantButtons);
             x = S.GetData();
             MotherboardPSUClassNames.add("Manufacturer");
             x.add(0,MotherboardPSUClassNames);
-            ScrapeHelp.WriteCSV("PCPP",PSU,x);
-
+            ScrapeHelp.WriteCSV(PSU,path,x);
             MotherboardPSUClassNames.remove(MotherboardPSUClassNames.size()-1);
             System.out.println("\nFinished PSU\n");
         }
 
 
-        String OS= path+fileSeparator+"OS";
+        String OS= "OS";
 
-        if(ScrapeHelp.doesExist("PCPP",OS)==false)
+        if(ScrapeHelp.doesExist(OS,path)==false)
         {
             S = new Scrape(OSUrl,OSButtons,OSClassNames,empty);
             x = S.GetData();
-            ScrapeHelp.WriteCSV("PCPP",OS,x);
+            ScrapeHelp.WriteCSV(OS,path,x);
 
             System.out.println("\nFinished OS\n");
         }
-        String Monitor= path+fileSeparator+"Monitor";
+        String Monitor= "Monitor";
 
-        if(ScrapeHelp.doesExist("PCPP",Monitor)==false)
+        if(ScrapeHelp.doesExist(Monitor,path)==false)
         {
             S = new Scrape(MonitorUrl,MonitorButtons,GPUCPURAMStorageCaseMonitorClassNames,MonitorImportantButtons);
             x = S.GetData();
             GPUCPURAMStorageCaseMonitorClassNames.add("Manufacturer");
             x.add(0,GPUCPURAMStorageCaseMonitorClassNames);
-            ScrapeHelp.WriteCSV("PCPP",Monitor,x);
+            ScrapeHelp.WriteCSV(Monitor,path,x);
 
             GPUCPURAMStorageCaseMonitorClassNames.remove(GPUCPURAMStorageCaseMonitorClassNames.size()-1);
             System.out.println("\nFinished Monitor\n");
