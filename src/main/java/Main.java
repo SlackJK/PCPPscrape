@@ -70,6 +70,7 @@ public class Main
         path = path+fileSeparator;
         System.out.println("Path is: " + path);  // Output user input
 
+
         boolean changeTimeOuts = false;
         System.out.println("Change default timeouts? \n(In seconds) buttonTimeOut = "+Scrape.buttonTimeOut+", pageTimeOut = "+Scrape.pageTimeOut+". (y/n)");
         if (myObj.nextLine().toLowerCase().contains("y")){
@@ -87,7 +88,7 @@ public class Main
         String CPU= "CPU";
         Scrape S;
         ArrayList<ArrayList<String>> x = new ArrayList<>();
-        if(ScrapeHelp.doesExist(CPU,path)==true)
+        if(ScrapeHelp.doesExist(CPU,path)==false)
         {
             S = new Scrape(CPUUrl,CPUSButtons,GPUCPURAMStorageCaseMonitorClassNames,CPUImportantButtons);
             x = S.GetData();
